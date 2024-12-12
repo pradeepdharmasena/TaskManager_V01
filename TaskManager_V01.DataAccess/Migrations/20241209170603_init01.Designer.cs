@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManager_V01.DataAccess;
 
@@ -11,9 +12,11 @@ using TaskManager_V01.DataAccess;
 namespace TaskManager_V01.DataAccess.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241209170603_init01")]
+    partial class init01
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -181,7 +184,7 @@ namespace TaskManager_V01.DataAccess.Migrations
 
                     b.HasIndex("UserAccountID");
 
-                    b.ToTable("TaskAssignees");
+                    b.ToTable("TaskAssignee");
                 });
 
             modelBuilder.Entity("TaskManager_V01.Models.UserAccount", b =>

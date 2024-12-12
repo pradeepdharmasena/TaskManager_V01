@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace TaskManager_V01.Dtos
 {
-    public class AppUserOutDTO
+    public class UserAccountOutDTO
     {
-        public Guid AppUserCD { get; set; }
+        public string Email { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
         public string ProfileImageURL { get; set; } = string.Empty;
         public DateTime CreatedDateTime { get; set; } = DateTime.UtcNow;
     }

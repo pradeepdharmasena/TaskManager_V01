@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -21,6 +22,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TaskManager_V01.DataAccess\TaskManager_V01.DataAccess.csproj" />
+    <ProjectReference Include="..\TaskManager_V01.Dtos\TaskManager_V01.Dtos.csproj" />
+    <ProjectReference Include="..\TaskManager_V01.Models\TaskManager_V01.Models.csproj" />
+    <ProjectReference Include="..\TaskManager_V01.Repositories\TaskManager_V01.Repositories.csproj" />
+    <ProjectReference Include="..\TaskManager_V01.Services\TaskManager_V01.Services.csproj" />
   </ItemGroup>
 
 </Project>

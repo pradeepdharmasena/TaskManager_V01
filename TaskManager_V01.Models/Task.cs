@@ -2,19 +2,21 @@
 
 namespace TaskManager_V01.Models
 {
-    public class Tasks
+    
+    public class Task
     {
-        [Key]
         public int TaskId { get; set; }
+        public int ProjectID {  get; set; } 
         public string Title { get; set; } = string.Empty;
-        public required Projects Project { get; set; }
-        public required AppUser Reporter { get; set; }
+        public required int ReporterAccountID { get; set; }
         public string Description { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public DateTime DeadLine {  get; set; } = DateTime.UtcNow;
         public decimal EstimatedTime { get; set; } = 1;
-        public ICollection<Comments> Comments { get; set; } = [];
-        public ICollection<Medias> Medias { get; set; } = [];
+        public ICollection<Comment> Comments { get; set; } = [];
+        public ICollection<Media> Medias { get; set; } = [];
+        public required Project Project { get; set; }
+        public required UserAccount Reporter { get; set; }
 
     }
 }

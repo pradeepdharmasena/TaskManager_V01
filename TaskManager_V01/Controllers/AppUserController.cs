@@ -10,7 +10,7 @@ namespace TaskManager_V01.Controllers
     {
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetByEmail(string email, string password)
         {
             return Ok("Server is up snd runing");
         }
@@ -18,8 +18,24 @@ namespace TaskManager_V01.Controllers
         [HttpPost]
         public IActionResult Create(UserAccountInDTO userAccountInDTO)
         {
-            var result = userAccountService.Create(userAccountInDTO);
-            return Ok(result);
+            UserAccountOutDTO? userAccountOutDTO = userAccountService.Create(userAccountInDTO);
+            if (userAccountOutDTO == null)
+            {
+                return BadRequest();
+            }
+            return Ok(userAccountOutDTO);
+        }
+
+        [HttpPut]
+        public IActionResult Update(UserAccountDto userAccountUpdateDto)
+        {
+            UserAccountOutDTO? userAccountOutDTO = userAccountService.Update(userAccountUpdateDto);
+            if (userAccountOutDTO == null)
+            {
+                return BadRequest(userAccountOutDTO);
+            }
+
+            return Ok(userAccountOutDTO);
         }
     }
 }

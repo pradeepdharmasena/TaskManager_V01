@@ -5,29 +5,88 @@ namespace TaskManager_V01.Repositories
 {
     public class UserAccountRepository(AppDBContext appDBContext) : IUserAccountRepository
     {
-        public UserAccount Create(UserAccount user)
+        public UserAccount? Create(UserAccount user)
         {
-            var savedUser =  appDBContext.UserAccounts.Add(user);
-            appDBContext.SaveChanges();
-            return savedUser.Entity;
+            try
+            {
+                var savedUser = appDBContext.UserAccounts.Add(user);
+                appDBContext.SaveChanges();
+                return savedUser.Entity;
+            }catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public UserAccount Delete()
+        public UserAccount? Delete(UserAccount user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var deletedUser = appDBContext.UserAccounts.Remove(user);
+                appDBContext.SaveChanges();
+                return deletedUser.Entity;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
         }
 
         public UserAccount? GetByEmail(string email)
         {
-            var user = appDBContext.UserAccounts.FirstOrDefault(x => x.Email == email);
-            return user;
+            try
+            {
+                var user = appDBContext.UserAccounts.FirstOrDefault(x => x.Email == email);
+                return user;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
         }
 
-        public UserAccount Update(UserAccount user)
+        public UserAccount? GetByID(int id)
         {
-            var updatedUser = appDBContext.UserAccounts.Update(user);
-            appDBContext.SaveChanges();
-            return updatedUser.Entity;
+            try
+            {
+                UserAccount? result = appDBContext.UserAccounts.FirstOrDefault(x => x.AccountID == id);
+                return result;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+        }
+
+        public UserAccount? GetByEmailAndPassword(string email, string password)
+        {
+            try
+            {
+                UserAccount? result = appDBContext.UserAccounts.FirstOrDefault(x => x.Email == email && x.Password == password);
+                return result;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public UserAccount? Update(UserAccount user)
+        {
+            try
+            {
+                var updatedUser = appDBContext.UserAccounts.Update(user);
+                appDBContext.SaveChanges();
+                return updatedUser.Entity;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
         }
     }
 }

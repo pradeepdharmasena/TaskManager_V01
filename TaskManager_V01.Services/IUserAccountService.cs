@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TaskManager_V01.Dtos;
+﻿using TaskManager_V01.Dtos;
 
 namespace TaskManager_V01.Services
 {
     public interface IUserAccountService
     {
-        public UserAccountOutDTO Create(UserAccountInDTO userAccountInDTO);
-        public UserAccountOutDTO Update(UserAccountInDTO userAccountInDTO);
-        public UserAccountOutDTO Delete(int id);
-        public UserAccountOutDTO Get(int id);
-        public UserAccountOutDTO GetByEmail(string email);
+        public UserAccountOutDTO? Create(UserAccountInDTO userAccountInDTO);
+        public UserAccountOutDTO? Update(UserAccountDto userAccountUpdateDto);
+        public UserAccountOutDTO? Delete(UserAccountDto userAccountDto);
+        public UserAccountOutDTO? GetByEmailAndPassword(string email, string password);
+        public UserAccountOutDTO? GetByEmail(string email);
     }
 }

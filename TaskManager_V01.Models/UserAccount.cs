@@ -9,7 +9,7 @@ namespace TaskManager_V01.Models
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string ProfileImageURL { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
+        public required string Password { get; set; }
         public DateTime CreatedDateTime { get; set; } = DateTime.UtcNow;
         public ICollection<Project> Projects { get; set; } = [];
     }

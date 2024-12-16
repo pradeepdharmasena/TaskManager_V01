@@ -1,45 +1,44 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore.Metadata;
 using TaskManager_V01.Dtos;
 using TaskManager_V01.Models;
 using TaskManager_V01.Repositories;
 
 namespace TaskManager_V01.Services
 {
-    public class UserAccountService(IUserAccountRepository userAccountRepository, IMapper Mapper ) : IUserAccountService
+    public class UserAccountService(IUserAccountRepository userAccountRepository, IMapper mapper ) : IUserAccountService
     {
-        public UserAccountOutDTO Create(UserAccountInDTO userAccountInDTO)
+        public UserAccountOutDTO? Create(UserAccountInDTO userAccountInDTO)
         {
-            UserAccount user = Mapper.Map<UserAccount>(userAccountInDTO);
+            UserAccount user = mapper.Map<UserAccount>(userAccountInDTO);
             UserAccount? savedUser = userAccountRepository.Create(user);
-            if (savedUser == null)
+            return mapper.Map<UserAccountOutDTO>(savedUser);
+        }
+
+        public UserAccountOutDTO? Delete(UserAccountDto userAccountDto)
+        {
+            UserAccount? userAccount = userAccountRepository.GetByEmail(userAccountDto.Email);
+            if (userAccount == null)
             {
-                return new UserAccountOutDTO();
+                return null;
             }
-            else
-            {
-                return Mapper.Map<UserAccountOutDTO>(savedUser);
-            }
+            return mapper.Map<UserAccountOutDTO>(userAccountRepository.Delete(userAccount));
+           
         }
 
-        public UserAccountOutDTO Delete(int id)
+        public UserAccountOutDTO? GetByEmail(string email)
         {
-            throw new NotImplementedException();
+            return mapper.Map<UserAccountOutDTO>(userAccountRepository.GetByEmail(email));
         }
 
-        public UserAccountOutDTO Get(int id)
+        public UserAccountOutDTO? GetByEmailAndPassword(string email, string password)
         {
-            throw new NotImplementedException();
+            return mapper.Map<UserAccountOutDTO>(userAccountRepository.GetByEmailAndPassword(email, password));
         }
 
-        public UserAccountOutDTO GetByEmail(string email)
+        public UserAccountOutDTO? Update(UserAccountDto userAccountUpdateDto)
         {
-            throw new NotImplementedException();
-        }
-
-        public UserAccountOutDTO Update(UserAccountInDTO userAccountInDTO)
-        {
-            throw new NotImplementedException();
+            UserAccount? userAccount = userAccountRepository.GetByEmail(userAccountUpdateDto.Email);
+            return mapper.Map<UserAccountOutDTO>(userAccount);
         }
     }
 }

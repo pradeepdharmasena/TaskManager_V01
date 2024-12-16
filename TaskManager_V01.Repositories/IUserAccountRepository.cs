@@ -9,10 +9,12 @@ namespace TaskManager_V01.Repositories
 {
     public interface IUserAccountRepository
     {
+        public UserAccount? GetByEmailAndPassword(string Email, string password);
         public UserAccount? GetByEmail(string Email);
-        public UserAccount Create(UserAccount user);
-        public UserAccount Update(UserAccount user);
-        public UserAccount Delete();
+        public UserAccount? GetByID(int id);
+        public UserAccount? Create(UserAccount user);
+        public UserAccount? Update(UserAccount user);
+        public UserAccount? Delete(UserAccount user);
 
     }
 }

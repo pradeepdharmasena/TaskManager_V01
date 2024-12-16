@@ -11,7 +11,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+//builder.Services.AddAuthorization();
+//builder.Services.AddAuthentication().AddCookie();
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(Assembly.Load("TaskManager_V01.Dtos"));
 builder.Services.AddDbContext<AppDBContext>();
 builder.Services.AddScoped<IUserAccountRepository, UserAccountRepository>();

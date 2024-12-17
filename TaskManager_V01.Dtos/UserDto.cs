@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TaskManager_V01.Dtos
 {
-    public class UserAccountDto
+    public class UserDto
     {
         public required  string Email { get; set; }
         public string? FirstName { get; set; } 

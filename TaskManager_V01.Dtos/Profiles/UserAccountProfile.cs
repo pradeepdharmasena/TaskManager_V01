@@ -12,9 +12,9 @@ namespace TaskManager_V01.Dtos.Profiles
     {
         public UserAccountProfile() 
         {
-            CreateMap<UserAccountInDTO, UserAccount>()
+            CreateMap<UserRegisterDTO, User>()
                 .ForMember(des => des.Projects, opt => opt.Ignore());
-            CreateMap<UserAccount, UserAccountOutDTO>();   
+            CreateMap<User, UserOutDTO>();   
          
         }
     }

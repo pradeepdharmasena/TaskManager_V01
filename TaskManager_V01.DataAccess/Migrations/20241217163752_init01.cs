@@ -15,17 +15,17 @@ namespace TaskManager_V01.DataAccess.Migrations
                 name: "UserAccounts",
                 columns: table => new
                 {
-                    AccountID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProfileImageURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserAccounts", x => x.AccountID);
+                    table.PrimaryKey("PK_UserAccounts", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -35,7 +35,7 @@ namespace TaskManager_V01.DataAccess.Migrations
                     ProjectId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Tittle = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    OwnerAccountID = table.Column<int>(type: "int", nullable: false),
+                    OwnerID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeadLine = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -44,10 +44,10 @@ namespace TaskManager_V01.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_Projects", x => x.ProjectId);
                     table.ForeignKey(
-                        name: "FK_Projects_UserAccounts_OwnerAccountID",
-                        column: x => x.OwnerAccountID,
+                        name: "FK_Projects_UserAccounts_OwnerID",
+                        column: x => x.OwnerID,
                         principalTable: "UserAccounts",
-                        principalColumn: "AccountID");
+                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateTable(
@@ -58,7 +58,7 @@ namespace TaskManager_V01.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProjectID = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReporterAccountID = table.Column<int>(type: "int", nullable: false),
+                    ReporterID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeadLine = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -74,10 +74,10 @@ namespace TaskManager_V01.DataAccess.Migrations
                         principalColumn: "ProjectId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Tasks_UserAccounts_ReporterAccountID",
-                        column: x => x.ReporterAccountID,
+                        name: "FK_Tasks_UserAccounts_ReporterID",
+                        column: x => x.ReporterID,
                         principalTable: "UserAccounts",
-                        principalColumn: "AccountID");
+                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateTable(
@@ -91,7 +91,8 @@ namespace TaskManager_V01.DataAccess.Migrations
                     Header = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Body = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    LastModifiedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    WriterUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -103,11 +104,10 @@ namespace TaskManager_V01.DataAccess.Migrations
                         principalColumn: "TaskId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Comments_UserAccounts_WriterAccountID",
-                        column: x => x.WriterAccountID,
+                        name: "FK_Comments_UserAccounts_WriterUserId",
+                        column: x => x.WriterUserId,
                         principalTable: "UserAccounts",
-                        principalColumn: "AccountID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateTable(
@@ -132,26 +132,26 @@ namespace TaskManager_V01.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TaskAssignee",
+                name: "TaskAssignees",
                 columns: table => new
                 {
                     TaskId = table.Column<int>(type: "int", nullable: false),
-                    UserAccountID = table.Column<int>(type: "int", nullable: false)
+                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TaskAssignee", x => new { x.TaskId, x.UserAccountID });
+                    table.PrimaryKey("PK_TaskAssignees", x => new { x.TaskId, x.UserID });
                     table.ForeignKey(
-                        name: "FK_TaskAssignee_Tasks_TaskId",
+                        name: "FK_TaskAssignees_Tasks_TaskId",
                         column: x => x.TaskId,
                         principalTable: "Tasks",
                         principalColumn: "TaskId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TaskAssignee_UserAccounts_UserAccountID",
-                        column: x => x.UserAccountID,
+                        name: "FK_TaskAssignees_UserAccounts_UserID",
+                        column: x => x.UserID,
                         principalTable: "UserAccounts",
-                        principalColumn: "AccountID",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -167,9 +167,9 @@ namespace TaskManager_V01.DataAccess.Migrations
                 column: "TaskId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_WriterAccountID",
+                name: "IX_Comments_WriterUserId",
                 table: "Comments",
-                column: "WriterAccountID");
+                column: "WriterUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Medias_MediaId",
@@ -183,9 +183,9 @@ namespace TaskManager_V01.DataAccess.Migrations
                 column: "TaskID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_OwnerAccountID",
+                name: "IX_Projects_OwnerID",
                 table: "Projects",
-                column: "OwnerAccountID");
+                column: "OwnerID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_Tittle",
@@ -194,9 +194,9 @@ namespace TaskManager_V01.DataAccess.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TaskAssignee_UserAccountID",
-                table: "TaskAssignee",
-                column: "UserAccountID");
+                name: "IX_TaskAssignees_UserID",
+                table: "TaskAssignees",
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_ProjectID",
@@ -204,9 +204,9 @@ namespace TaskManager_V01.DataAccess.Migrations
                 column: "ProjectID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tasks_ReporterAccountID",
+                name: "IX_Tasks_ReporterID",
                 table: "Tasks",
-                column: "ReporterAccountID");
+                column: "ReporterID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_TaskId",
@@ -231,7 +231,7 @@ namespace TaskManager_V01.DataAccess.Migrations
                 name: "Medias");
 
             migrationBuilder.DropTable(
-                name: "TaskAssignee");
+                name: "TaskAssignees");
 
             migrationBuilder.DropTable(
                 name: "Tasks");

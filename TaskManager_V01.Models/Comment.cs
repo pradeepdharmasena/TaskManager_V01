@@ -12,6 +12,6 @@ namespace TaskManager_V01.Models
         public DateTime CreatedDateTime { get; set; } = DateTime.UtcNow;
         public DateTime LastModifiedDateTime { get; set; } = DateTime.UtcNow;
         public required Task Task { get; set; } = null!;
-        public required UserAccount Writer { get; set; } = null!;
+        public required User Writer { get; set; } = null!;
     }
 }

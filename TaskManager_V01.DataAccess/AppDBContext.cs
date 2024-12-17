@@ -20,7 +20,7 @@ namespace TaskManager_V01.DataAccess
             optionsBuilder.UseSqlServer(Configuration.GetConnectionString("WebApiDatabase"));
         }
 
-        public DbSet<UserAccount> UserAccounts { get; set; }
+        public DbSet<User> UserAccounts { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Task> Tasks { get; set; }
         public DbSet<Comment> Comments { get; set; }
@@ -30,14 +30,14 @@ namespace TaskManager_V01.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserAccount>()
-                .Property(u => u.AccountID)
+            modelBuilder.Entity<User>()
+                .Property(u => u.UserId)
                 .ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<UserAccount>()
-                .HasKey(u => u.AccountID);
+            modelBuilder.Entity<User>()
+                .HasKey(u => u.UserId);
 
-            modelBuilder.Entity<UserAccount>()
+            modelBuilder.Entity<User>()
                 .HasIndex(u => u.Email)
                 .IsUnique();
 
@@ -55,7 +55,7 @@ namespace TaskManager_V01.DataAccess
             modelBuilder.Entity<Project>()
                 .HasOne(e => e.Owner)
                 .WithMany(e => e.Projects)
-                .HasForeignKey(e => e.OwnerAccountID)
+                .HasForeignKey(e => e.OwnerID)
                 .OnDelete(DeleteBehavior.NoAction) 
                 .IsRequired();
 
@@ -73,7 +73,7 @@ namespace TaskManager_V01.DataAccess
             modelBuilder.Entity<Task>()
                 .HasOne(e => e.Reporter)
                 .WithMany()
-                .HasForeignKey(e => e.ReporterAccountID)
+                .HasForeignKey(e => e.ReporterID)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired();
 
@@ -97,7 +97,7 @@ namespace TaskManager_V01.DataAccess
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<TaskAssignee>()
-                .HasKey(tu => new { tu.TaskId, tu.UserAccountID }); 
+                .HasKey(tu => new { tu.TaskId, tu.UserID }); 
 
             modelBuilder.Entity<TaskAssignee>()
                 .HasOne(tu => tu.Task)
@@ -107,7 +107,7 @@ namespace TaskManager_V01.DataAccess
             modelBuilder.Entity<TaskAssignee>()
                 .HasOne(tu => tu.UserAccount)
                 .WithMany()
-                .HasForeignKey(tu => tu.UserAccountID);
+                .HasForeignKey(tu => tu.UserID);
 
 
         }

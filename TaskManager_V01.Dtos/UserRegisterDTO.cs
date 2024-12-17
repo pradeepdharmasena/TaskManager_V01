@@ -3,9 +3,9 @@ using TaskManager_V01.Models;
 
 namespace TaskManager_V01.Dtos
 {
-    public class UserAccountInDTO
+    public class UserRegisterDTO
     {
-        public required string Email { get; set; }
+        public  string Email { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;

@@ -50,6 +50,9 @@ namespace TaskManager_V01.DataAccess.Migrations
                     b.Property<int>("WriterAccountID")
                         .HasColumnType("int");
 
+                    b.Property<string>("WriterUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("CommentId");
 
                     b.HasIndex("CommentId")
@@ -57,7 +60,7 @@ namespace TaskManager_V01.DataAccess.Migrations
 
                     b.HasIndex("TaskId");
 
-                    b.HasIndex("WriterAccountID");
+                    b.HasIndex("WriterUserId");
 
                     b.ToTable("Comments");
                 });
@@ -109,8 +112,9 @@ namespace TaskManager_V01.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OwnerAccountID")
-                        .HasColumnType("int");
+                    b.Property<string>("OwnerID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Tittle")
                         .IsRequired()
@@ -118,7 +122,7 @@ namespace TaskManager_V01.DataAccess.Migrations
 
                     b.HasKey("ProjectId");
 
-                    b.HasIndex("OwnerAccountID");
+                    b.HasIndex("OwnerID");
 
                     b.HasIndex("Tittle")
                         .IsUnique();
@@ -150,8 +154,9 @@ namespace TaskManager_V01.DataAccess.Migrations
                     b.Property<int>("ProjectID")
                         .HasColumnType("int");
 
-                    b.Property<int>("ReporterAccountID")
-                        .HasColumnType("int");
+                    b.Property<string>("ReporterID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -161,7 +166,7 @@ namespace TaskManager_V01.DataAccess.Migrations
 
                     b.HasIndex("ProjectID");
 
-                    b.HasIndex("ReporterAccountID");
+                    b.HasIndex("ReporterID");
 
                     b.HasIndex("TaskId")
                         .IsUnique();
@@ -174,23 +179,21 @@ namespace TaskManager_V01.DataAccess.Migrations
                     b.Property<int>("TaskId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserAccountID")
-                        .HasColumnType("int");
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("TaskId", "UserAccountID");
+                    b.HasKey("TaskId", "UserID");
 
-                    b.HasIndex("UserAccountID");
+                    b.HasIndex("UserID");
 
                     b.ToTable("TaskAssignees");
                 });
 
-            modelBuilder.Entity("TaskManager_V01.Models.UserAccount", b =>
+            modelBuilder.Entity("TaskManager_V01.Models.User", b =>
                 {
-                    b.Property<int>("AccountID")
+                    b.Property<string>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountID"));
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedDateTime")
                         .HasColumnType("datetime2");
@@ -215,7 +218,7 @@ namespace TaskManager_V01.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("AccountID");
+                    b.HasKey("UserId");
 
                     b.HasIndex("Email")
                         .IsUnique();
@@ -231,11 +234,9 @@ namespace TaskManager_V01.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TaskManager_V01.Models.UserAccount", "Writer")
+                    b.HasOne("TaskManager_V01.Models.User", "Writer")
                         .WithMany()
-                        .HasForeignKey("WriterAccountID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WriterUserId");
 
                     b.Navigation("Task");
 
@@ -255,9 +256,9 @@ namespace TaskManager_V01.DataAccess.Migrations
 
             modelBuilder.Entity("TaskManager_V01.Models.Project", b =>
                 {
-                    b.HasOne("TaskManager_V01.Models.UserAccount", "Owner")
+                    b.HasOne("TaskManager_V01.Models.User", "Owner")
                         .WithMany("Projects")
-                        .HasForeignKey("OwnerAccountID")
+                        .HasForeignKey("OwnerID")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -272,9 +273,9 @@ namespace TaskManager_V01.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TaskManager_V01.Models.UserAccount", "Reporter")
+                    b.HasOne("TaskManager_V01.Models.User", "Reporter")
                         .WithMany()
-                        .HasForeignKey("ReporterAccountID")
+                        .HasForeignKey("ReporterID")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -291,9 +292,9 @@ namespace TaskManager_V01.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TaskManager_V01.Models.UserAccount", "UserAccount")
+                    b.HasOne("TaskManager_V01.Models.User", "UserAccount")
                         .WithMany()
-                        .HasForeignKey("UserAccountID")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -314,7 +315,7 @@ namespace TaskManager_V01.DataAccess.Migrations
                     b.Navigation("Medias");
                 });
 
-            modelBuilder.Entity("TaskManager_V01.Models.UserAccount", b =>
+            modelBuilder.Entity("TaskManager_V01.Models.User", b =>
                 {
                     b.Navigation("Projects");
                 });

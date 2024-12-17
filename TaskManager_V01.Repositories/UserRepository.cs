@@ -3,9 +3,9 @@ using TaskManager_V01.Models;
 
 namespace TaskManager_V01.Repositories
 {
-    public class UserAccountRepository(AppDBContext appDBContext) : IUserAccountRepository
+    public class UserRepository(AppDBContext appDBContext) : IUserRepository
     {
-        public UserAccount? Create(UserAccount user)
+        public User? Create(User user)
         {
             try
             {
@@ -18,7 +18,7 @@ namespace TaskManager_V01.Repositories
             }
         }
 
-        public UserAccount? Delete(UserAccount user)
+        public User? Delete(User user)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace TaskManager_V01.Repositories
 
         }
 
-        public UserAccount? GetByEmail(string email)
+        public User? GetByEmail(string email)
         {
             try
             {
@@ -47,11 +47,11 @@ namespace TaskManager_V01.Repositories
 
         }
 
-        public UserAccount? GetByID(int id)
+        public User? GetByID(string id)
         {
             try
             {
-                UserAccount? result = appDBContext.UserAccounts.FirstOrDefault(x => x.AccountID == id);
+                User? result = appDBContext.UserAccounts.FirstOrDefault(x => x.UserId == id);
                 return result;
             }
             catch (Exception)
@@ -61,11 +61,11 @@ namespace TaskManager_V01.Repositories
 
         }
 
-        public UserAccount? GetByEmailAndPassword(string email, string password)
+        public User? GetByEmailAndPassword(string email, string password)
         {
             try
             {
-                UserAccount? result = appDBContext.UserAccounts.FirstOrDefault(x => x.Email == email && x.Password == password);
+                User? result = appDBContext.UserAccounts.FirstOrDefault(x => x.Email == email && x.Password == password);
                 return result;
             }
             catch (Exception)
@@ -74,7 +74,7 @@ namespace TaskManager_V01.Repositories
             }
         }
 
-        public UserAccount? Update(UserAccount user)
+        public User? Update(User user)
         {
             try
             {

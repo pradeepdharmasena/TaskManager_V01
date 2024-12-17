@@ -8,7 +8,7 @@ namespace TaskManager_V01.Models
         public int TaskId { get; set; }
         public int ProjectID {  get; set; } 
         public string Title { get; set; } = string.Empty;
-        public required int ReporterAccountID { get; set; }
+        public  string ReporterID { get; set; } = string.Empty ;
         public string Description { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public DateTime DeadLine {  get; set; } = DateTime.UtcNow;
@@ -16,7 +16,7 @@ namespace TaskManager_V01.Models
         public ICollection<Comment> Comments { get; set; } = [];
         public ICollection<Media> Medias { get; set; } = [];
         public required Project Project { get; set; }
-        public required UserAccount Reporter { get; set; }
+        public required User Reporter { get; set; }
 
     }
 }
